@@ -3,7 +3,7 @@ import os
 
 import coloredlogs as coloredlogs
 
-from api import main, const
+from bot import main, const
 
 coloredlogs.install(fmt="[%(asctime)s] [%(name)s/%(levelname)s]: %(message)s", datefmt="%H:%M:%S",
                     field_styles={"levelname": {"color": "blue"}, "message": {"color": "white", "bright": True}})

@@ -1,7 +1,13 @@
 from typing import Callable
 
-from api import main
+from bot import main
 from api.menu import menu_handler
+
+
+"""
+Декоратор, добавляющий новый пункт в меню и автоматически регистрирующий
+простой хендлер на этот пункт.
+"""
 
 
 def aiotool_menu_entry(name: str):

@@ -1,6 +1,6 @@
 from aiogram import types
 
-from api import main
+from bot import main
 from api.menu import menu_handler
 
 

@@ -1,36 +1,30 @@
-from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.types import Message
 
-from api import const, main
-from api.function.decorators import aiotool_function
-from api.menu.decorators import aiotool_menu_entry
-from api.state.custom_state import CustomState
+from api.state.auto.auto_states import AutoIntState, AutoStringState
+from api.state.wrapped_states_group import WrappedStatesGroup
 
 
-class TestState(CustomState):
+class ProfileForm(WrappedStatesGroup):
+    name = AutoStringState("Как тебя зовут?")
+    age = AutoIntState("Сколько тебе лет?")
+
     @staticmethod
-    async def on_state(message: Message, state: FSMContext):
-        async with state.proxy() as data:
-            data['test1'] = message.text
+    @age.value_checker()
+    async def age_checker(value: any, message: Message, ctx: FSMContext):
+        if value is not None and value < 18:
+            await message.reply("Тебе еще нет 18, пиздюк!")
 
-        await state.finish()
+            return False
 
+        return True
 
-class TestForm(StatesGroup):
-    test1 = TestState()
-
-
-@aiotool_function(TestForm)
-async def test_func(message: Message, state: FSMContext):
-    async with state.proxy() as data:
-        print(data)
-        await message.reply(data["test1"])
+    vape_model = AutoStringState("Укажи модель своего вейпа или пропусти, если он у тебя, по какой-то причине, "
+                                 "отсутствует.", optional=True)
 
 
-@aiotool_menu_entry("❤ State test")
-async def beubass_entry(message: types.Message):
-    await TestForm.test1.set()
-
-    await message.reply("Enter test value")
+@ProfileForm.function(menu="✍️ Заполнить профиль")
+async def profile(message: Message, name: str, age: int, vape_model: str):
+    await message.answer("Ты успешно заполнил профиль!")
+    await message.answer(
+        f"Имя: {name}\nВозраст: {age}\nМодель вейпа: {'нет дудки' if not vape_model else vape_model}")

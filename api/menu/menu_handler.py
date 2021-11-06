@@ -2,6 +2,11 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 items: list[str] = []
 
+"""
+Здесь создается разметка главного меню. Пока что все в базовом состоянии,
+позже будет разделение на категории, страницы, etc.
+"""
+
 
 def get_keyboard() -> ReplyKeyboardMarkup:
     keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
