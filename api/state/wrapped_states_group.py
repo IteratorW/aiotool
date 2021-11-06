@@ -58,23 +58,7 @@ class WrappedStatesGroup(StatesGroup):
             if not isinstance(form_state, WrappedState):
                 raise RuntimeError(f"State {form_state} is not subclass of CustomState, can't process")
 
-            if form_state.optional:
-                @main.dp.callback_query_handler(lambda c: c.data == "skip", state=form_state)
-                async def state_cb(query: CallbackQuery, state: FSMContext):
-                    await main.bot.answer_callback_query(query.id)
-
-                    await cls.proceed(StateResult.COMPLETED, query.message, state)
-
-            # Здесь говнокод. Регистрация хандлеров происходит в цикле чтобы зарегестрировать хандлеры на каждый стейт.
-            # В идеале лучше было бы найти способ зарегестрировать один хандлер на одну группу стейтов, но я не ебу как.
-            # noinspection PyProtectedMember
-            @main.dp.message_handler(state=form_state)
-            async def handler(message: Message, state: FSMContext):
-                state_obj = cls.get_state_from_name(await state.get_state())
-
-                result = await state_obj.on_pre_state(message, state)
-
-                await cls.proceed(result, message, state)
+            form_state.register_handler(cls)
 
     @classmethod
     def function(cls, menu: str = None):
