@@ -38,4 +38,4 @@ class WrappedState(State):
         await main.bot.send_message(chat_id, text=self.message, reply_markup=kb)
 
     def __str__(self):
-        return f"<CustomState '{self.state or ''}'>"
+        return f"<aiotool state '{self.state or ''}'>"

@@ -19,7 +19,8 @@ class AutoState(WrappedState):
     async def on_pre_state(self, message: Message, state: FSMContext) -> Optional[StateResult]:
         result = await self.on_state(message, state)
 
-        result = None if not (await self.check_value(self.value, message, state)) else result
+        if result is not None:
+            result = None if not (await self.check_value(self.value, message, state)) else result
 
         return result
 
