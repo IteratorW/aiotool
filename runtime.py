@@ -1,5 +1,7 @@
+import asyncio
 import logging
 import os
+import sys
 
 import coloredlogs as coloredlogs
 
@@ -22,6 +24,18 @@ for directory in const.EXT_DIRS:
 
         logging.info(f"Loaded extension {python_module}")
 
-logging.info("Running aiogram...")
+logging.info("Running async...")
 
-main.run()
+loop = asyncio.new_event_loop()
+asyncio.ensure_future(main.run(), loop=loop)
+
+try:
+    loop.run_forever()
+except KeyboardInterrupt:
+    pass
+finally:
+    logging.info("Shitdown")
+
+    loop.run_until_complete(main.executor._shutdown_polling())
+
+    sys.exit()
