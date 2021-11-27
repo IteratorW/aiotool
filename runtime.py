@@ -5,7 +5,7 @@ import sys
 
 import coloredlogs as coloredlogs
 
-from bot import main, const
+from bot import main, env
 
 coloredlogs.install(fmt="[%(asctime)s] [%(name)s/%(levelname)s]: %(message)s", datefmt="%H:%M:%S",
                     field_styles={"levelname": {"color": "blue"}, "message": {"color": "white", "bright": True}})
@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO)
 
 logging.info("Loading extensions...")
 
-for directory in const.EXT_DIRS:
+for directory in env.EXTENSION_DIRS:
     if not os.path.isdir(directory):
         os.mkdir(directory)
 
