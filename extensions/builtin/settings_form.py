@@ -71,7 +71,7 @@ async def category_callback_handler(callback_query: CallbackQuery):
             break
 
     if entry is None:
-        await callback_query.message.reply("Неизвестная настройка!")
+        await callback_query.message.answer("Неизвестная настройка!")
 
         return
 
@@ -83,7 +83,7 @@ async def category_callback_handler(callback_query: CallbackQuery):
         await inst.update_from_dict({entry.db_field_name: not enabled})
         await inst.save()
 
-        await callback_query.message.reply(f"Ты {'выключил' if enabled else 'включил'} {entry.name}")
+        await callback_query.message.answer(f"Ты {'выключил' if enabled else 'включил'} {entry.name}")
     else:
         if entry.message is None:
             try:
@@ -93,7 +93,7 @@ async def category_callback_handler(callback_query: CallbackQuery):
         else:
             text = entry.message
 
-        await callback_query.message.reply(text)
+        await callback_query.message.answer(text)
 
         await SettingsForm.value.set()
         state = Dispatcher.get_current().current_state()
@@ -108,11 +108,11 @@ async def settings_callback_handler(callback_query: CallbackQuery):
     category = get_category_from_name(callback_query.data.split("|")[-1])
 
     if category is None:
-        await callback_query.message.reply("Неизвестная категория!")
+        await callback_query.message.answer("Неизвестная категория!")
 
         return
 
-    await callback_query.message.reply(f"Настройки - {category.name}", reply_markup=await get_category_keyboard(category,
+    await callback_query.message.answer(f"Настройки - {category.name}", reply_markup=await get_category_keyboard(category,
                                                                                                           callback_query.
                                                                                                           from_user.id))
 
