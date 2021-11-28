@@ -4,6 +4,8 @@ from bot import main
 from api.menu import menu_handler
 from extensions.builtin.whitelist_middleware import WhitelistMiddleware
 
+from . import settings_form
+
 main.dp.middleware.setup(WhitelistMiddleware())
 
 

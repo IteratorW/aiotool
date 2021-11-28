@@ -5,6 +5,8 @@ from api.state.auto.auto_states import AutoIntState, AutoStringState
 from api.state.state_with_buttons import StateWithButtons
 from api.state.wrapped_states_group import WrappedStatesGroup
 
+from . import test_fn
+
 vaping_times = ["меньше года", "1 год", "больше года", "больше двух лет"]
 
 

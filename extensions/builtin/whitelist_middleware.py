@@ -2,7 +2,7 @@ from aiogram.dispatcher.handler import CancelHandler
 from aiogram.dispatcher.middlewares import BaseMiddleware
 from aiogram.types import Message
 
-from extensions.builtin.model.models import AiotoolUser
+from extensions.builtin.models import AiotoolUser
 
 
 class WhitelistMiddleware(BaseMiddleware):

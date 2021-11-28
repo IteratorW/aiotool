@@ -1,10 +1,12 @@
 import asyncio
+import importlib
 import logging
 import os
 import sys
 
 import coloredlogs as coloredlogs
 
+from api.extension import extension_handler
 from bot import main, env
 
 coloredlogs.install(fmt="[%(asctime)s] [%(name)s/%(levelname)s]: %(message)s", datefmt="%H:%M:%S",
@@ -22,7 +24,13 @@ for directory in env.EXTENSION_DIRS:
 
         extension = getattr(__import__(path, globals(), locals()), python_module)
 
+        if os.path.isfile(f"{directory}/{python_module}/models.py"):
+            extension_handler.extensions_models.append(f"{path}.models")
+
+            logging.info(f"Added models for extension {python_module}")
+
         logging.info(f"Loaded extension {python_module}")
+
 
 logging.info("Running async...")
 
@@ -36,6 +44,6 @@ except KeyboardInterrupt:
 finally:
     logging.info("Shitdown")
 
-    loop.run_until_complete(main.executor._shutdown_polling())
+    # loop.run_until_complete(main.executor._shutdown_polling())
 
     sys.exit()

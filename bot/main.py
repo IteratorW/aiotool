@@ -6,6 +6,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.utils.executor import Executor
 from tortoise import Tortoise
 
+from api.extension import extension_handler
 from bot import env
 
 bot = Bot(env.TELEGRAM_TOKEN)
@@ -26,7 +27,7 @@ async def run_aiogram():
 async def run_tortoise():
     await Tortoise.init(
         db_url='sqlite://db.sqlite3',
-        modules={'models': ['extensions.builtin.model.models']}  # TODO добавить подгрузку моделей из всех расширений
+        modules={'models': extension_handler.extensions_models}
     )
     await Tortoise.generate_schemas()
 
