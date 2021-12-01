@@ -7,6 +7,7 @@ from api.state.state_with_buttons import StateWithButtons
 from api.state.wrapped_states_group import WrappedStatesGroup
 
 from . import test_fn
+from . import nesting_test
 
 vaping_times = ["меньше года", "1 год", "больше года", "больше двух лет"]
 
