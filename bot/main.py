@@ -27,7 +27,7 @@ async def run_aiogram():
 async def run_tortoise():
     await Tortoise.init(
         db_url='sqlite://db.sqlite3',
-        modules={'models': extension_handler.extensions_models}
+        modules={'models': extension_handler.extensions_models + ["api.models"]}
     )
     await Tortoise.generate_schemas()
 

@@ -1,21 +1,12 @@
-from typing import Callable
-
-from bot import main
 from api.menu import menu_handler
+from api.menu.menu_node import MenuNode
 
 
-"""
-Декоратор, добавляющий новый пункт в меню и автоматически регистрирующий
-простой хендлер на этот пункт.
-"""
+def aiotool_menu_node_handler(menu_node: MenuNode, parent_node: MenuNode = None):
+    def decorator(func):
+        menu_node.handler = func
 
-
-def aiotool_menu_entry(name: str):
-    def decorator(func: Callable):
-
-        menu_handler.items.append(name)
-
-        main.dp.message_handler(lambda message: message.text == name)(func)
+        menu_handler.add_node(menu_node, parent_node)
 
         return func
 

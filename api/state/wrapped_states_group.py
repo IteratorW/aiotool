@@ -4,8 +4,9 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup
 from aiogram.types import Message, CallbackQuery
 
+from api.menu.decorators import aiotool_menu_node_handler
+from api.menu.menu_node import MenuNode
 from bot import main
-from api.menu.decorators import aiotool_menu_entry
 from api.state.wrapped_state import WrappedState
 from api.state.state_result import StateResult
 
@@ -61,12 +62,12 @@ class WrappedStatesGroup(StatesGroup):
             form_state.register_handler(cls)
 
     @classmethod
-    def function(cls, menu: str = None):
+    def function(cls, node: MenuNode = None, parent_node: MenuNode = None):
         def decorator(func: Callable):
             cls.register_handlers(func)
 
-            if menu is not None:
-                @aiotool_menu_entry(menu)
+            if node is not None:
+                @aiotool_menu_node_handler(node, parent_node)
                 async def handler(message: Message):
                     state_obj = cls.get_state_from_name(await cls.first())
 

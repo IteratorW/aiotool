@@ -3,7 +3,8 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 
-from api.menu.decorators import aiotool_menu_entry
+from api.menu.decorators import aiotool_menu_node_handler
+from api.menu.menu_node import MenuNode
 from api.settings import settings_handler
 from api.settings.settings_category import SettingsCategory
 from bot import main
@@ -166,6 +167,6 @@ async def settings_state_handler(message: Message, state: FSMContext):
     await state.finish()
 
 
-@aiotool_menu_entry("⚙️ Настройки")
+@aiotool_menu_node_handler(MenuNode("settings_node", "⚙️ Настройки"))
 async def handler(message: Message):
     await message.reply("Категории настроек:", reply_markup=get_settings_keyboard())
