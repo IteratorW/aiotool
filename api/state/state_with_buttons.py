@@ -45,6 +45,13 @@ class StateWithButtons(WrappedState):
         async def state_cb(query: CallbackQuery, state: FSMContext):
             await main.bot.answer_callback_query(query.id)
 
+            if self.optional and query.data == "skip":
+                await main.bot.answer_callback_query(query.id)
+
+                await form.proceed(StateResult.COMPLETED, query.message, state)
+
+                return
+
             if self.use_int_ids:
                 try:
                     value = int(query.data)

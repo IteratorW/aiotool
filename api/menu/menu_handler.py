@@ -68,6 +68,4 @@ def register_handlers():
         if node_has_children(node):
             parent_node_names.append(node.name)
         else:
-            print(f"{node.name} doesn't have children!")
-
             node.register_handler()

@@ -36,7 +36,7 @@ class WrappedStatesGroup(StatesGroup):
 
         args = {}
 
-        for arg in cls.on_finish_callback.__code__.co_varnames[1:]:
+        for arg in cls.on_finish_callback.__code__.co_varnames[:cls.on_finish_callback.__code__.co_argcount][1:]:
             args[arg] = data[arg] if arg in data else None
 
         await cls.on_finish_callback(message, **args)

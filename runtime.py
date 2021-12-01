@@ -53,6 +53,6 @@ except KeyboardInterrupt:
 finally:
     logging.info("Shitdown")
 
-    # loop.run_until_complete(main.executor._shutdown_polling())
+    loop.run_until_complete(main.executor._shutdown_polling())
 
-    sys.exit()
+    sys.exit(0)
