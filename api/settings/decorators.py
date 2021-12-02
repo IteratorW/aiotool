@@ -12,12 +12,14 @@ def settings_descriptor(category_name: str, category_id: str, model: Type[Settin
 
         entries = []
 
-        for member in members:
-            if member not in model_fields:
-                raise RuntimeError(f"Field {member} as described in settings could not be not found in model {model}")
+        for model_field in model_fields:
+            if model_field not in members:
+                print(f"Field {model_field} can not be found in settings descriptor {cls}")
 
-            entry = getattr(cls, member)
-            entry.db_field_name = member
+                continue
+
+            entry = getattr(cls, model_field)
+            entry.db_field_name = model_field
             entry.db_field_type = model._meta.fields_map[entry.db_field_name].field_type
 
             if entry.db_field_type is bool:
