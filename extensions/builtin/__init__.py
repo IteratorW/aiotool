@@ -1,8 +1,8 @@
 from bot import main
 from extensions.builtin.whitelist_middleware import WhitelistMiddleware
-from . import administration
+from . import invites
 from . import settings
-from . import whitelist
+from . import edit_user
 from .models import InviteEntry
 
 main.dp.middleware.setup(WhitelistMiddleware())
