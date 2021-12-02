@@ -18,7 +18,7 @@ class InviteForm(WrappedStatesGroup):
                             optional=True)
 
 
-@InviteForm.function(MenuNode("whitelist_invite", "➡️ Создать инвайт"), admin_node)
+@InviteForm.function(MenuNode("whitelist_invite", "➡️ Создать инвайт", admin_only=True), admin_node)
 async def invite_function(message: Message, flag: int):
     if flag is None:
         flag = -1

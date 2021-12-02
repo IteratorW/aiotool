@@ -15,7 +15,7 @@ class MenuNode:
         self.parent = parent_node.node_id
 
     def register_handler(self):
-        main.dp.message_handler(lambda message: message.text == self.name)(self.handler)
+        main.dp.message_handler(lambda message: message.text == self.name, admin_only=self.admin_only)(self.handler)
 
     @staticmethod
     async def handler(message: Message):

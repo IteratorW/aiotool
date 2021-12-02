@@ -17,7 +17,7 @@ def b_name(value):
     return "Да" if value else "Нет"
 
 
-@aiotool_menu_node_handler(MenuNode("user_list", "📘 Список пользователей"), admin_node)
+@aiotool_menu_node_handler(MenuNode("user_list", "📘 Список пользователей", admin_only=True), admin_node)
 async def user_list_handler(message: Message):
     table = [[await get_name_from_id(user.user_id), b_name(user.whitelisted), b_name(user.admin)] async for user in
              AiotoolUser.all()]

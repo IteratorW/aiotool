@@ -43,4 +43,5 @@ async def send_welcome(message: Message):
 
             return
 
-    await message.answer("Добро пожаловать!", reply_markup=await menu_handler.get_node_keyboard(menu_handler.root_node))
+    await message.answer("Добро пожаловать!", reply_markup=await menu_handler.get_node_keyboard(message.from_user,
+                                                                                                menu_handler.root_node))

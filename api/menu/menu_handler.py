@@ -1,8 +1,9 @@
 from typing import Optional
 
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, Message
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, Message, User
 
 from api.menu.menu_node import MenuNode
+from api.models import AiotoolUser
 from bot import main
 
 nodes: list[MenuNode] = []
@@ -37,7 +38,8 @@ def get_node_parent(menu_node: MenuNode) -> Optional[MenuNode]:
     return next((x for x in nodes if x.node_id == menu_node.parent), None)
 
 
-async def get_node_keyboard(menu_node: MenuNode):
+async def get_node_keyboard(user: User, menu_node: MenuNode):
+    aiotool_user = (await AiotoolUser.get_or_create(user_id=user.id))[0]
     kb = ReplyKeyboardMarkup(resize_keyboard=False)
 
     parent_node = get_node_parent(menu_node)
@@ -48,7 +50,8 @@ async def get_node_keyboard(menu_node: MenuNode):
         kb.row()
 
     for child_node in get_child_notes(menu_node):
-        kb.insert(KeyboardButton(text=child_node.name))
+        if not child_node.admin_only or (child_node.admin_only and aiotool_user.admin):
+            kb.insert(KeyboardButton(text=child_node.name))
 
     return kb
 
@@ -60,7 +63,12 @@ async def parent_nodes_handler(message: Message):
     if node is None:
         return
 
-    await message.reply(f"Категория - {node.name}", reply_markup=await get_node_keyboard(node))
+    aiotool_user = (await AiotoolUser.get_or_create(user_id=message.from_user.id))[0]
+
+    if node.admin_only and not aiotool_user.admin:
+        return
+
+    await message.reply(f"Категория - {node.name}", reply_markup=await get_node_keyboard(message.from_user, node))
 
 
 def register_handlers():

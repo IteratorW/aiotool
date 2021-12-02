@@ -62,7 +62,7 @@ def get_markup(aiotool_user: AiotoolUser):
     return kb
 
 
-@main.dp.callback_query_handler(lambda query: query.data.startswith("edit_user_"))
+@main.dp.callback_query_handler(lambda query: query.data.startswith("edit_user_"), admin_only=True)
 async def edit_callback(query: CallbackQuery):
     data = query.data.split("_")
 
@@ -86,7 +86,7 @@ async def edit_callback(query: CallbackQuery):
                                   parse_mode=ParseMode.HTML)
 
 
-@EditUserForm.function(MenuNode("edit_user", "✔️ Редактировать пользователя"), admin_node)
+@EditUserForm.function(MenuNode("edit_user", "✔️ Редактировать пользователя", admin_only=True), admin_node)
 async def edit_user_function(message: Message, user: User):
     aiotool_user = await AiotoolUser.get(user_id=user.id)
 
