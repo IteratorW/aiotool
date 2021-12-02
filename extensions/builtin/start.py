@@ -1,9 +1,10 @@
 from aiogram.types import Message
 
+from api.menu import menu_handler
 from api.models import AiotoolUser
 from api.whitelist_exempt import whitelist_exempt
 from bot import main
-from extensions.builtin import InviteEntry
+from .models import InviteEntry
 
 
 @whitelist_exempt()
