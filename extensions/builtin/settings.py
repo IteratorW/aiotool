@@ -82,7 +82,7 @@ async def category_callback_handler(callback_query: CallbackQuery):
         enabled = getattr(inst, entry.db_field_name)
 
         await inst.update_from_dict({entry.db_field_name: not enabled})
-        await inst.save()
+        await inst.save(update_fields=[entry.db_field_name])
 
         await callback_query.message.answer(f"Ты {'выключил' if enabled else 'включил'} {entry.name}")
     else:
@@ -160,7 +160,7 @@ async def settings_state_handler(message: Message, state: FSMContext):
 
         return
 
-    await inst.save()
+    await inst.save(update_fields=[entry.db_field_name])
 
     await message.reply("Значение установлено!")
 
