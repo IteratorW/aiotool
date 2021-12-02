@@ -3,6 +3,7 @@ import logging
 
 from aiogram import Dispatcher, Bot
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils.executor import Executor
 from tortoise import Tortoise
 
@@ -33,6 +34,11 @@ async def run_tortoise():
 
 
 async def run():
+    if env.DEBUG:
+        logger.info("Debug activated")
+
+        dp.middleware.setup(LoggingMiddleware())
+
     logger.info("Running aiogram")
 
     await run_aiogram()
