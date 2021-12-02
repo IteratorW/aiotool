@@ -1,6 +1,5 @@
 from aiogram.types import Message
-from tortoise import Model, fields
-from tortoise.fields import Field, IntField
+from tortoise import fields
 
 from api.settings.decorators import settings_descriptor
 from api.settings.settings_entry import SettingsEntry

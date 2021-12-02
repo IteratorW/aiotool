@@ -2,17 +2,13 @@ import uuid
 
 from aiogram.types import InlineKeyboardButton, Message, ParseMode
 from aiogram.utils.deep_linking import get_start_link
-from aiogram.utils.markdown import text, bold, escape_md, link, hbold, hlink
+from aiogram.utils.markdown import hbold, hlink
 
-from api.menu import menu_handler
 from api.menu.menu_node import MenuNode
 from api.state.state_with_buttons import StateWithButtons
 from api.state.wrapped_states_group import WrappedStatesGroup
-from bot import main
+from extensions.builtin.menu import admin_node
 from extensions.builtin.models import InviteEntry
-
-admin_node = MenuNode("administration", "✏️ Администрирование")
-menu_handler.add_node(admin_node)
 
 
 class InviteForm(WrappedStatesGroup):

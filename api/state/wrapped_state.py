@@ -4,8 +4,8 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State
 from aiogram.types import Message, InlineKeyboardMarkup, CallbackQuery
 
-from bot import main
 from api.state.state_result import StateResult
+from bot import main
 
 if TYPE_CHECKING:
     from api.state.wrapped_states_group import WrappedStatesGroup

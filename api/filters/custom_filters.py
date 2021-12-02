@@ -1,6 +1,6 @@
 from typing import Union
 
-from aiogram.dispatcher.filters import Filter, BoundFilter
+from aiogram.dispatcher.filters import BoundFilter
 from aiogram.types import Message, CallbackQuery
 
 from api.models import AiotoolUser

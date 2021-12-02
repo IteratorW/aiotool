@@ -3,8 +3,6 @@ from aiogram.types import Message
 from api.menu import menu_handler
 from api.menu.decorators import aiotool_menu_node_handler
 from api.menu.menu_node import MenuNode
-from api.state.auto.auto_states import AutoStringState
-from api.state.wrapped_states_group import WrappedStatesGroup
 from dev_extensions.beu_ext.models import TestSettings
 
 test_node = MenuNode("test_node", "❤️Тестовая категория")

@@ -4,7 +4,6 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import Message
 
 from api.state.auto.auto_state import AutoState
-from api.state.wrapped_state import WrappedState
 from api.state.state_result import StateResult
 
 

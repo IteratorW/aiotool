@@ -2,13 +2,12 @@ from typing import Callable
 
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message
 
 from api.menu.decorators import aiotool_menu_node_handler
 from api.menu.menu_node import MenuNode
-from bot import main
-from api.state.wrapped_state import WrappedState
 from api.state.state_result import StateResult
+from api.state.wrapped_state import WrappedState
 
 
 class WrappedStatesGroup(StatesGroup):

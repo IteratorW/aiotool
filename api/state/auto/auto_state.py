@@ -3,8 +3,8 @@ from typing import Callable, Optional
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message
 
-from api.state.wrapped_state import WrappedState
 from api.state.state_result import StateResult
+from api.state.wrapped_state import WrappedState
 
 
 class AutoState(WrappedState):

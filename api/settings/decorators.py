@@ -1,4 +1,4 @@
-from typing import Callable, Type
+from typing import Type
 
 from api.settings import settings_handler
 from api.settings.settings_category import SettingsCategory
