@@ -30,13 +30,15 @@ class UserIDState(WrappedState):
                                 "\nВы можете указать только того пользователя, который хотя бы один раз писал боту.")
             return None
 
-        await state.update_data({"user": user})
+        assert (isinstance(user, User))
+
+        await state.update_data({"state_user": user})
 
         return StateResult.COMPLETED
 
 
 class EditUserForm(WrappedStatesGroup):
-    username = UserIDState("Укажи username пользователя")
+    state_user = UserIDState("Укажи username пользователя")
 
 
 def get_user_text(user: User, aiotool_user: AiotoolUser):
@@ -87,8 +89,8 @@ async def edit_callback(query: CallbackQuery):
 
 
 @EditUserForm.function(MenuNode("edit_user", "✔️ Редактировать пользователя", admin_only=True), admin_node)
-async def edit_user_function(message: Message, user: User):
-    aiotool_user = await AiotoolUser.get(user_id=user.id)
+async def edit_user_function(message: Message, user: User, state_user: User):
+    aiotool_user = await AiotoolUser.get(user_id=state_user.id)
 
-    await message.answer(get_user_text(user, aiotool_user), parse_mode=ParseMode.HTML,
+    await message.answer(get_user_text(state_user, aiotool_user), parse_mode=ParseMode.HTML,
                          reply_markup=get_markup(aiotool_user))

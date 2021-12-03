@@ -7,6 +7,7 @@ from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils.executor import Executor
 from tortoise import Tortoise
 
+from api import postload
 from api.extension import extension_handler
 from bot import env
 
@@ -46,3 +47,7 @@ async def run():
     logger.info("Running tortoise")
 
     await run_tortoise()
+
+    logger.info("Running extensions postload")
+
+    await postload.activate_handlers()

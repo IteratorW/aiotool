@@ -1,6 +1,6 @@
 import uuid
 
-from aiogram.types import InlineKeyboardButton, Message, ParseMode
+from aiogram.types import InlineKeyboardButton, Message, ParseMode, User
 from aiogram.utils.deep_linking import get_start_link
 from aiogram.utils.markdown import hbold, hlink
 
@@ -19,7 +19,7 @@ class InviteForm(WrappedStatesGroup):
 
 
 @InviteForm.function(MenuNode("whitelist_invite", "➡️ Создать инвайт", admin_only=True), admin_node)
-async def invite_function(message: Message, flag: int):
+async def invite_function(message: Message, user: User, flag: int):
     if flag is None:
         flag = -1
 

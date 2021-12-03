@@ -1,5 +1,5 @@
 from aiogram.dispatcher import FSMContext
-from aiogram.types import Message, InlineKeyboardButton
+from aiogram.types import Message, InlineKeyboardButton, User
 
 from api.menu.menu_node import MenuNode
 from api.state.auto.auto_states import AutoIntState, AutoStringState
@@ -35,7 +35,7 @@ class ProfileForm(WrappedStatesGroup):
 
 
 @ProfileForm.function(MenuNode("profile", "✍️ Заполнить профиль"))
-async def profile(message: Message, name: str, age: int, vape_model: str, vaping_time: int):
+async def profile(message: Message, user: User, name: str, age: int, vape_model: str, vaping_time: int):
     await message.answer("Ты успешно заполнил профиль!")
     await message.answer(
         f"Имя: {name}\nВозраст: {age}\nСтаж парения: {vaping_times[vaping_time]}\nМодель вейпа: {'нет дудки' if not vape_model else vape_model}")

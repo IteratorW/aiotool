@@ -66,10 +66,9 @@ class StateWithButtons(WrappedState):
                 if value not in self.callback_ids:
                     return
 
-            result = await self.on_pre_state(query.message, state)
+            await state.update_data(**{await self.get_name(state): value})
 
-            if result is not None:
-                await state.update_data(**{await self.get_name(state): value})
+            result = await self.on_pre_state(query.message, state)
 
             await form.proceed(result, query.message, state)
 

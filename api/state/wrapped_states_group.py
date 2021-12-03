@@ -2,12 +2,13 @@ from typing import Callable
 
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup
-from aiogram.types import Message
+from aiogram.types import Message, ChatMember, User
 
 from api.menu.decorators import aiotool_menu_node_handler
 from api.menu.menu_node import MenuNode
 from api.state.state_result import StateResult
 from api.state.wrapped_state import WrappedState
+from bot import main
 
 
 class WrappedStatesGroup(StatesGroup):
@@ -38,7 +39,10 @@ class WrappedStatesGroup(StatesGroup):
         for arg in cls.on_finish_callback.__code__.co_varnames[:cls.on_finish_callback.__code__.co_argcount][1:]:
             args[arg] = data[arg] if arg in data else None
 
-        await cls.on_finish_callback(message, **args)
+        del args["user"]
+
+        user_id = ctx.user
+        await cls.on_finish_callback(message, (await main.bot.get_chat_member(user_id, user_id)).user, **args)
 
     @classmethod
     async def proceed(cls, result: StateResult, message: Message, ctx: FSMContext):
