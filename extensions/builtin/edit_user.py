@@ -18,8 +18,8 @@ class UserIDState(WrappedState):
         username = message.text[1:] if message.text.startswith("@") else message.text
 
         user = None
-        async for user in AiotoolUser.all():
-            member = await main.bot.get_chat_member(user.user_id, user.user_id)
+        async for aiotool_user in AiotoolUser.all():
+            member = await main.bot.get_chat_member(aiotool_user.user_id, aiotool_user.user_id)
 
             if member.user.username == username:
                 user = member.user
@@ -29,8 +29,6 @@ class UserIDState(WrappedState):
             await message.reply("Пользователь не найден!"
                                 "\nВы можете указать только того пользователя, который хотя бы один раз писал боту.")
             return None
-
-        assert (isinstance(user, User))
 
         await state.update_data({"state_user": user})
 
