@@ -64,6 +64,11 @@ async def global_stats_handler(message: Message):
             if puff_data is not None:
                 puff_data_list.append(puff_data)
 
+    if not len(puff_data_list):
+        await message.reply("Пока что никто не участвует в топе. Попробуй завтра.")
+
+        return
+
     puff_data_list.sort(key=lambda x: x.all_puffs, reverse=True)
     puff_data_list = puff_data_list[:5]
 
