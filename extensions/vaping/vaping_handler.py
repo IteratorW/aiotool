@@ -4,7 +4,7 @@ from typing import Optional
 import pytz
 from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
-from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, User
+from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, User, CallbackQuery
 from tortoise.exceptions import DoesNotExist
 from tortoise.query_utils import Q
 
@@ -38,9 +38,7 @@ class DayState(StateWithButtons):
 
         await main.bot.send_message(chat_id, text=self.message, reply_markup=kb)
 
-    async def on_pre_state(self, message: Message, state: FSMContext) -> Optional[StateResult]:
-        await self.on_state(message, state)
-
+    async def on_pre_state(self, message: CallbackQuery, state: FSMContext) -> Optional[StateResult]:
         day = (await state.get_data())["day"]
 
         now = truncate_time(datetime.now())

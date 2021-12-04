@@ -68,7 +68,7 @@ class StateWithButtons(WrappedState):
 
             await state.update_data(**{await self.get_name(state): value})
 
-            result = await self.on_pre_state(query.message, state)
+            result = await self.on_pre_state(query, state)
 
             await form.proceed(result, query.message, state)
 
