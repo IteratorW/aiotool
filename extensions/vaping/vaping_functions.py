@@ -6,10 +6,9 @@ from aiogram.utils.markdown import hbold
 from api.menu.decorators import aiotool_menu_node_handler
 from api.menu.menu_node import MenuNode
 from bot import main
-from extensions.vaping import menu, monthly_puff_data, plot
+from extensions.vaping import menu, plot
 from extensions.vaping.models import VapingSettings
 from extensions.vaping.monthly_puff_data import MonthlyPuffData
-
 
 months = {
     1: "Январь",
@@ -77,4 +76,5 @@ async def global_stats_handler(message: Message):
     for i, puff_data in enumerate(puff_data_list):
         caption += f"\n{top_numbers[i + 1]}. {puff_data.username} - {puff_data.all_puffs} затяжек"
 
-    await main.bot.send_photo(message.chat.id, photo=plot.get_vaping_plot(puff_data_list), caption=caption)
+    await main.bot.send_photo(message.chat.id, photo=plot.get_vaping_plot(puff_data_list, global_chart=True),
+                              caption=caption)

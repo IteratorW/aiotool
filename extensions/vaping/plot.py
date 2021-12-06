@@ -9,7 +9,7 @@ from extensions.vaping.monthly_puff_data import MonthlyPuffData
 plt.style.use("cyberpunk")
 
 
-def get_vaping_plot(data: list[MonthlyPuffData]):
+def get_vaping_plot(data: list[MonthlyPuffData], global_chart=False):
     fig, ax = plt.subplots(figsize=(12, 6))
 
     day_limit = len(data[0].puffs)
@@ -26,7 +26,7 @@ def get_vaping_plot(data: list[MonthlyPuffData]):
 
     mplcyberpunk.add_glow_effects()
 
-    if len(data) == 1:
+    if not global_chart:
         np_array = np.array(data[0].puffs)
 
         z = np.polyfit(x, np_array, 1)
