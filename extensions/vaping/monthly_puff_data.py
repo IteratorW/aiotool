@@ -31,7 +31,7 @@ class MonthlyPuffData:
         puffs = []
 
         for day in range(1, days_count + 1):
-            if day > now.day:
+            if day > now.day - 1:
                 break
 
             dt = pytz.utc.localize(datetime(year=now.year, month=now.month, day=day))
