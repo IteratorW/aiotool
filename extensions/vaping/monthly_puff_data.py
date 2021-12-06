@@ -5,7 +5,7 @@ from datetime import datetime
 import pytz
 from tortoise.query_utils import Q
 
-from bot import main
+from bot import main, env
 from extensions.vaping.models import PuffEntry
 
 
@@ -31,7 +31,7 @@ class MonthlyPuffData:
         puffs = []
 
         for day in range(1, days_count + 1):
-            if day > now.day - 1:
+            if not env.DEBUG and day > now.day - 1:
                 break
 
             dt = pytz.utc.localize(datetime(year=now.year, month=now.month, day=day))
