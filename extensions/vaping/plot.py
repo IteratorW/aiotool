@@ -10,6 +10,8 @@ plt.style.use("cyberpunk")
 
 
 def get_vaping_plot(data: list[MonthlyPuffData], global_chart=False):
+    # TODO probably requires a fucking refactor
+
     fig, ax = plt.subplots(figsize=(12, 6))
 
     day_limit = len(data[0].puffs)
@@ -17,7 +19,7 @@ def get_vaping_plot(data: list[MonthlyPuffData], global_chart=False):
     max_y = max([max(puff_data.puffs) for puff_data in data])
 
     ax.set_xlim([1, data[0].month_days])
-    ax.set_ylim([0, max_y + 5])
+    ax.set_ylim([0, max_y + 15])
 
     for puff_data in data:
         y = puff_data.puffs
@@ -37,7 +39,7 @@ def get_vaping_plot(data: list[MonthlyPuffData], global_chart=False):
 
         max_x = data[0].puffs.index(max_y)
 
-        line2 = ax.plot(x, [max_y] * len(x), "--", color="#F5D300")[0]
+        line2 = ax.plot(x, [max_y] * len(x), ":", color="#F5D300")[0]
         make_line_glow(line2, ax)
 
         ax.annotate("Больше всего затяжек!", xy=(max_x + 1.5, max_y + 5), color="#F5D300")
