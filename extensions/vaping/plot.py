@@ -45,7 +45,7 @@ def get_vaping_plot(data: list[MonthlyPuffData], global_chart=False):
         ax.annotate("Больше всего затяжек!", xy=(max_x + 1.5, max_y + 5), color="#F5D300")
 
     plt.xticks(range(min(x), max(x) + 1, 1))
-    plt.yticks(np.arange(0, max_y, 45))
+    plt.yticks(np.arange(0, max_y + 15, 45))
     plt.legend([puff_data.username for puff_data in data])
 
     buf = io.BytesIO()
