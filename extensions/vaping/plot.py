@@ -2,7 +2,7 @@ import io
 
 import mplcyberpunk
 import numpy as np
-from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt, patches
 
 from extensions.vaping.monthly_puff_data import MonthlyPuffData
 
@@ -35,7 +35,15 @@ def get_vaping_plot(data: list[MonthlyPuffData], global_chart=False):
         line = ax.plot(x, p(x), "--", color="#00ff41")[0]
         make_line_glow(line, ax)
 
+        max_x = data[0].puffs.index(max_y)
+
+        line2 = ax.plot(x, [max_y] * len(x), "--", color="#F5D300")[0]
+        make_line_glow(line2, ax)
+
+        ax.annotate("Больше всего затяжек!", xy=(max_x + 1.5, max_y + 5), color="#F5D300")
+
     plt.xticks(range(min(x), max(x) + 1, 1))
+    plt.yticks(np.arange(0, max_y, 45))
     plt.legend([puff_data.username for puff_data in data])
 
     buf = io.BytesIO()
