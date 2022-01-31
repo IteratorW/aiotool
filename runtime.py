@@ -54,4 +54,4 @@ finally:
 
     loop.run_until_complete(main.executor._shutdown_polling())
 
-    sys.exit(0)
+    loop.run_until_complete(Tortoise.close_connections())
