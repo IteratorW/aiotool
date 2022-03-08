@@ -4,6 +4,7 @@ import os
 import sys
 
 import coloredlogs as coloredlogs
+from tortoise import Tortoise
 
 from api.extension import extension_handler
 from api.filters import custom_filters
