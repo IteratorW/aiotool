@@ -6,10 +6,34 @@ from matplotlib import pyplot as plt, patches
 
 from extensions.vaping.monthly_puff_data import MonthlyPuffData
 
-plt.style.use("cyberpunk")
+plt.style.use("aiotool.mplstyle")
 
 
-def get_vaping_plot(data: list[MonthlyPuffData], global_chart=False):
+def get_vaping_plot_year(data: list[int]) -> io.BytesIO:
+    fig, ax = plt.subplots(figsize=(12, 6))
+
+    max_y = max(data)
+    x = list(range(1, len(data) + 1))
+
+    ax.set_xlim([1, 12])
+    ax.set_ylim([0, max_y + 250])
+
+    line = ax.plot(x, data, marker="o")[0]
+
+    make_line_glow(line, ax, n_glow_lines=15, diff_linewidth=2.0)
+    mplcyberpunk.add_underglow(ax)
+
+    plt.xticks(range(min(x), max(x) + 1, 1))
+    plt.yticks(np.arange(0, max_y + 15, 500))
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+
+    return buf
+
+
+def get_vaping_plot_month(data: list[MonthlyPuffData], global_chart=False) -> io.BytesIO:
     # TODO probably requires a fucking refactor
 
     fig, ax = plt.subplots(figsize=(12, 6))
@@ -24,9 +48,10 @@ def get_vaping_plot(data: list[MonthlyPuffData], global_chart=False):
     for puff_data in data:
         y = puff_data.puffs
 
-        ax.plot(x, y, marker="o")
+        line = ax.plot(x, y, marker="o")[0]
 
-    mplcyberpunk.add_glow_effects()
+        make_line_glow(line, ax, n_glow_lines=15, diff_linewidth=2.0)
+        mplcyberpunk.add_underglow(ax)
 
     if not global_chart:
         np_array = np.array(data[0].puffs)

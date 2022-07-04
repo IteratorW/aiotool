@@ -24,17 +24,18 @@ class MonthlyPuffData:
         return int(statistics.mean(self.puffs))
 
     @classmethod
-    async def get_for_user(cls, user_id: int):
+    async def get_for_user(cls, user_id: int, month: int = -1):
         now = datetime.now()
-        days_count = monthrange(now.year, now.month)[1]
+        cur_month = now.month if month == -1 else month
+        days_count = monthrange(now.year, cur_month)[1]
 
         puffs = []
 
         for day in range(1, days_count + 1):
-            if not env.DEBUG and day > now.day - 1:
+            if not env.DEBUG and month == -1 and day > now.day - 1:
                 break
 
-            dt = pytz.utc.localize(datetime(year=now.year, month=now.month, day=day))
+            dt = pytz.utc.localize(datetime(year=now.year, month=cur_month, day=day))
 
             entries = await PuffEntry.filter(user_id=user_id, date=dt)
 

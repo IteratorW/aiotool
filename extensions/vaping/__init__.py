@@ -6,6 +6,8 @@ from api.postload import postload
 from . import vaping_functions, reminding
 from . import vaping_handler
 from . import debug
+from . import vaping_month_stats
+from . import vaping_year_stats
 
 
 async def schedule_task():

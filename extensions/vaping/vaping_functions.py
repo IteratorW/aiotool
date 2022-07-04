@@ -8,22 +8,8 @@ from api.menu.menu_node import MenuNode
 from bot import main
 from extensions.vaping import menu, plot
 from extensions.vaping.models import VapingSettings
+from extensions.vaping.month_names import MONTH_NAMES
 from extensions.vaping.monthly_puff_data import MonthlyPuffData
-
-months = {
-    1: "Январь",
-    2: "Февраль",
-    3: "Март",
-    4: "Апрель",
-    5: "Май",
-    6: "Июнь",
-    7: "Июль",
-    8: "Август",
-    9: "Сентябрь",
-    10: "Октябрь",
-    11: "Ноябрь",
-    12: "Декабрь"
-}
 
 
 top_numbers = {
@@ -35,7 +21,7 @@ top_numbers = {
 }
 
 
-@aiotool_menu_node_handler(MenuNode("vaping_self_stats", "📊 Статистика затяжек"), menu.vaping_menu)
+@aiotool_menu_node_handler(MenuNode("vaping_self_stats", "📊 Затяжки за текущий месяц"), menu.vaping_menu)
 async def self_stats_handler(message: Message):
     puff_data = await MonthlyPuffData.get_for_user(message.from_user.id)
 
@@ -44,9 +30,9 @@ async def self_stats_handler(message: Message):
 
         return
 
-    await main.bot.send_photo(message.chat.id, photo=plot.get_vaping_plot([puff_data]),
+    await main.bot.send_photo(message.chat.id, photo=plot.get_vaping_plot_month([puff_data]),
                               caption=f"""
-Статистика твоих затяжек за {months[datetime.now().month].lower()}:
+Статистика твоих затяжек за {MONTH_NAMES[datetime.now().month - 1].lower()}:
 Всего затяжек: {hbold(puff_data.all_puffs)}
 В среднем за день: {hbold(puff_data.mean)}
                               """, parse_mode=ParseMode.HTML)
@@ -76,5 +62,5 @@ async def global_stats_handler(message: Message):
     for i, puff_data in enumerate(puff_data_list):
         caption += f"\n{top_numbers[i + 1]}. {puff_data.username} - {puff_data.all_puffs} затяжек"
 
-    await main.bot.send_photo(message.chat.id, photo=plot.get_vaping_plot(puff_data_list, global_chart=True),
+    await main.bot.send_photo(message.chat.id, photo=plot.get_vaping_plot_month(puff_data_list, global_chart=True),
                               caption=caption)
